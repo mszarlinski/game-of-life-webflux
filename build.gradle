@@ -43,12 +43,15 @@ repositories {
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter",
+    compile("org.springframework.boot:spring-boot-starter-webflux",
             "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
             "org.jetbrains.kotlin:kotlin-reflect")
 
     testCompile(
-            "org.spockframework:spock-core:1.1-groovy-2.4"
+            "org.spockframework:spock-core:1.1-groovy-2.4",
+            "org.spockframework:spock-spring:1.1-groovy-2.4",
+            "org.springframework.boot:spring-boot-starter-test",
+            "io.projectreactor:reactor-test:3.1.5.RELEASE"
     )
 }
 

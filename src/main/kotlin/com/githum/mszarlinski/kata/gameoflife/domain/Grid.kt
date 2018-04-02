@@ -2,7 +2,7 @@ package com.githum.mszarlinski.kata.gameoflife.domain
 
 internal class Grid(val width: Int, val height: Int) {
 
-    private val cells: MutableList<Cell> = MutableList(width * height, { Cell.random() })
+    val cells: MutableList<Cell> = MutableList(width * height, { Cell.random() })
 
     fun aliveCells(): Int = cells.count { it.isAlive() }
 
