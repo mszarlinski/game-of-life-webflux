@@ -7,7 +7,7 @@ import spock.lang.Specification
 import static com.github.mszarlinski.kata.gameoflife.SampleGrid.O
 import static com.github.mszarlinski.kata.gameoflife.SampleGrid.X
 import static com.github.mszarlinski.kata.gameoflife.SampleGrid.aGrid
-
+import static com.githum.mszarlinski.kata.gameoflife.Grid.Coord
 
 class GameOfLifeSpec extends Specification {
 
@@ -49,7 +49,7 @@ class GameOfLifeSpec extends Specification {
             )
 
         then:
-            grid.cellAt(i, j).isDead()
+            grid.cellAt(Coord.of(i, j)).isDead()
 
         where: "index is out of bounds"
             i  | j
@@ -73,12 +73,12 @@ class GameOfLifeSpec extends Specification {
             Grid nextGenGrid = gameOfLife.calculateNextGeneration(grid)
 
         then:
-            nextGenGrid.cellAt(0, 0).isDead()
-            nextGenGrid.cellAt(0, 2).isDead()
-            nextGenGrid.cellAt(1, 1).isDead()
+            nextGenGrid.cellAt(Coord.of(0, 0)).isDead()
+            nextGenGrid.cellAt(Coord.of(0, 2)).isDead()
+            nextGenGrid.cellAt(Coord.of(1, 1)).isDead()
 
         and:
-            nextGenGrid.cellAt(1, 2).isAlive()
+            nextGenGrid.cellAt(Coord.of(1, 2)).isAlive()
     }
 
     def "Any live cell with more than three live neighbours dies, as if by overcrowding"() {

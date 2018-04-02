@@ -5,32 +5,29 @@ internal class GameOfLife {
 
     fun start(width: Int, height: Int) = Grid(width, height)
 
-    fun calculateNextGeneration(grid: Grid): Grid {
-        val newGen = Grid(grid.width, grid.height)
-        for (i in 0 until grid.height) {
-            for (j in 0 until grid.width) {
-                if (grid.cellAt(i, j).isDead()) {
-                    newGen.setCellAt(i, j, false)
-                } else {
-                    if (isUnderpopulated(grid, i, j)) {
-                        newGen.setCellAt(i, j, false)
-                    } else {
-                        newGen.setCellAt(i, j, true)
-                    }
+    fun calculateNextGeneration(current: Grid): Grid =
+            Grid(current.width, current.height).apply {
+                current.forEach { cell, coord ->
+                    this.setCellAt(coord, calculateCellState(current, cell, coord))
                 }
             }
+
+    private fun calculateCellState(grid: Grid, cell: Grid.Cell, coord: Grid.Coord): Boolean {
+        return if (cell.isDead()) {
+            false
+        } else {
+            !isUnderpopulated(grid, coord)
         }
-        return newGen
     }
 
-    private fun isUnderpopulated(grid: Grid, i: Int, j: Int): Boolean {
+    private fun isUnderpopulated(grid: Grid, coord: Grid.Coord): Boolean {
         val deltas = (-1..1)
                 .flatMap { first ->
                     (-1..1).map { (first to it) }
                 }
         return deltas
                 .filter { (it.first == 0) xor (it.second == 0) }
-                .filter { grid.cellAt(i + it.first, j + it.second).isAlive() }
+                .filter { grid.cellAt(coord.shift(it)).isAlive() }
                 .count() < 2
     }
 

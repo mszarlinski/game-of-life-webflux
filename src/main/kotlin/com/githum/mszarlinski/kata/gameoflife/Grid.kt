@@ -10,16 +10,24 @@ internal class Grid(val width: Int, val height: Int) {
 
     fun deadCells(): Int = cells.count { it.isDead() }
 
-    fun cellAt(i: Int, j: Int): Cell =
-            if (outOfBounds(i, j)) Cell.DEAD else cells[i * width + j]
+    fun cellAt(coord: Coord): Cell =
+            if (outOfBounds(coord)) Cell.DEAD else cells[coord.height * width + coord.width]
 
-    private fun outOfBounds(i: Int, j: Int) = i < 0 || i >= height || j < 0 || j >= width
+    private fun outOfBounds(coord: Coord) = coord.height < 0 || coord.height >= height || coord.width < 0 || coord.width >= width
 
-    fun setCellAt(i: Int, j: Int, value: Boolean) {
-        cells[i * width + j] = Cell(value)
+    fun setCellAt(coord: Coord, value: Boolean) {
+        cells[coord.height * width + coord.width] = Cell(value)
     }
 
-    data class Cell(private var value: Boolean) {
+    fun forEach(action: (Cell, Coord) -> Unit) {
+        for (i in 0 until height) {
+            for (j in 0 until width) {
+                action(cells[i * width + j], Coord(i, j))
+            }
+        }
+    }
+
+    data class Cell(private val value: Boolean) {
         fun isAlive() = value
         fun isDead() = !isAlive()
 
@@ -29,4 +37,14 @@ internal class Grid(val width: Int, val height: Int) {
             val DEAD = Cell(false)
         }
     }
+
+    data class Coord(val height: Int, val width: Int) {
+        fun shift(delta: Pair<Int, Int>) = Coord(height + delta.first, width + delta.second)
+
+        companion object {
+            @JvmStatic
+            fun of(height: Int, width: Int) = Coord(height, width)
+        }
+    }
+
 }
