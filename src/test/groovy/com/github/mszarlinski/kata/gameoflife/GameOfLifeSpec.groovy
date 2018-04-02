@@ -1,8 +1,9 @@
 package com.github.mszarlinski.kata.gameoflife
 
-import com.githum.mszarlinski.kata.gameoflife.Coordinates
-import com.githum.mszarlinski.kata.gameoflife.GameOfLife
-import com.githum.mszarlinski.kata.gameoflife.Grid
+import com.githum.mszarlinski.kata.gameoflife.domain.CellStateCalculator
+import com.githum.mszarlinski.kata.gameoflife.domain.Coordinates
+import com.githum.mszarlinski.kata.gameoflife.domain.GameOfLife
+import com.githum.mszarlinski.kata.gameoflife.domain.Grid
 import spock.lang.Specification
 
 import static com.github.mszarlinski.kata.gameoflife.SampleGrid.O
@@ -11,7 +12,7 @@ import static com.github.mszarlinski.kata.gameoflife.SampleGrid.aGrid
 
 class GameOfLifeSpec extends Specification {
 
-    GameOfLife gameOfLife = new GameOfLife()
+    GameOfLife gameOfLife = new GameOfLife(new CellStateCalculator())
 
     def "You start with a two dimensional grid of cells, where each cell is either alive or dead"() {
         when:

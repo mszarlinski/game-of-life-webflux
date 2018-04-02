@@ -1,4 +1,4 @@
-package com.githum.mszarlinski.kata.gameoflife
+package com.githum.mszarlinski.kata.gameoflife.domain
 
 internal class Grid(val width: Int, val height: Int) {
 
@@ -9,12 +9,12 @@ internal class Grid(val width: Int, val height: Int) {
     fun deadCells(): Int = cells.count { it.isDead() }
 
     fun cellAt(coordinates: Coordinates): Cell =
-            if (outOfBounds(coordinates)) Cell.DEAD else cells[coordinates.height * width + coordinates.width]
+            if (outOfBounds(coordinates)) Cell.DEAD_CELL else cells[coordinates.height * width + coordinates.width]
 
     private fun outOfBounds(coordinates: Coordinates) = coordinates.height < 0 || coordinates.height >= height || coordinates.width < 0 || coordinates.width >= width
 
-    fun setCellAt(coordinates: Coordinates, value: Boolean) {
-        cells[coordinates.height * width + coordinates.width] = Cell(value)
+    fun setCellAt(coordinates: Coordinates, state: Cell.State) {
+        cells[coordinates.height * width + coordinates.width] = Cell(state)
     }
 
     fun forEach(action: (Cell, Coordinates) -> Unit) {

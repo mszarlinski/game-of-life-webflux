@@ -1,6 +1,6 @@
 package com.github.mszarlinski.kata.gameoflife
 
-import com.githum.mszarlinski.kata.gameoflife.Coordinates
+import com.githum.mszarlinski.kata.gameoflife.domain.Coordinates
 import kotlin.Pair
 import spock.lang.Specification
 

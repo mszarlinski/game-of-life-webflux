@@ -1,4 +1,4 @@
-package com.githum.mszarlinski.kata.gameoflife
+package com.githum.mszarlinski.kata.gameoflife.domain
 
 
 internal data class Coordinates(val height: Int, val width: Int) {
