@@ -103,11 +103,22 @@ class GameOfLifeSpec extends Specification {
             nextGenGrid.cellAt(Coord.of(2, 2)).isAlive()
     }
 
-    def "Any live cell with two or three live neighbours lives on to the next generation"() {
-
-    }
-
     def "Any dead cell with exactly three live neighbours becomes a live cell"() {
+        given:
+            Grid grid = aGrid(
+                    [
+                            [O, X, O],
+                            [X, O, O]
+                    ]
+            )
 
+        when:
+            Grid nextGenGrid = gameOfLife.calculateNextGeneration(grid)
+
+        then:
+            nextGenGrid.cellAt(Coord.of(0, 1)).isAlive()
+
+        and:
+            nextGenGrid.cellAt(Coord.of(1, 0)).isDead()
     }
 }

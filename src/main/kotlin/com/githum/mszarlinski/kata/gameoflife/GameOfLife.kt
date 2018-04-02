@@ -14,19 +14,22 @@ internal class GameOfLife {
 
     private fun calculateCellState(grid: Grid, cell: Grid.Cell, coord: Grid.Coord): Boolean {
         return if (cell.isDead()) {
-            false
+            shouldBeRestored(grid, coord)
         } else {
             !isUnderpopulated(grid, coord) && !isOvercrowded(grid, coord)
         }
     }
 
     private fun isUnderpopulated(grid: Grid, coord: Grid.Coord): Boolean =
-            neighbours(grid, coord).count() < 2
+            aliveNeighbours(grid, coord).count() < 2
 
     private fun isOvercrowded(grid: Grid, coord: Grid.Coord): Boolean =
-            neighbours(grid, coord).count() > 3
+            aliveNeighbours(grid, coord).count() > 3
 
-    private fun neighbours(grid: Grid, coord: Grid.Coord) =
+    private fun shouldBeRestored(grid: Grid, coord: Grid.Coord): Boolean =
+            aliveNeighbours(grid, coord).count() == 3
+
+    private fun aliveNeighbours(grid: Grid, coord: Grid.Coord) =
             (-1..1).flatMap { first ->
                 (-1..1).map { (first to it) }
             }
