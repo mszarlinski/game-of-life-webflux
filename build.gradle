@@ -48,8 +48,7 @@ dependencies {
             "org.jetbrains.kotlin:kotlin-reflect")
 
     testCompile(
-            "org.spockframework:spock-core:1.1-groovy-2.4",
-            "info.solidsoft.spock:spock-global-unroll:0.5.1"
+            "org.spockframework:spock-core:1.1-groovy-2.4"
     )
 }
 
