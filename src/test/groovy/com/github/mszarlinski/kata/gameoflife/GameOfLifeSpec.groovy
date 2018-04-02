@@ -82,7 +82,25 @@ class GameOfLifeSpec extends Specification {
     }
 
     def "Any live cell with more than three live neighbours dies, as if by overcrowding"() {
+        given:
+            Grid grid = aGrid(
+                    [
+                            [O, X, O],
+                            [O, O, O],
+                            [O, O, O],
+                            [X, O, O]
+                    ]
+            )
 
+        when:
+            Grid nextGenGrid = gameOfLife.calculateNextGeneration(grid)
+
+        then:
+            nextGenGrid.cellAt(Coord.of(2, 1)).isDead()
+
+        and:
+            nextGenGrid.cellAt(Coord.of(1, 1)).isAlive()
+            nextGenGrid.cellAt(Coord.of(2, 2)).isAlive()
     }
 
     def "Any live cell with two or three live neighbours lives on to the next generation"() {

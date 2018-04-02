@@ -16,19 +16,20 @@ internal class GameOfLife {
         return if (cell.isDead()) {
             false
         } else {
-            !isUnderpopulated(grid, coord)
+            !isUnderpopulated(grid, coord) && !isOvercrowded(grid, coord)
         }
     }
 
-    private fun isUnderpopulated(grid: Grid, coord: Grid.Coord): Boolean {
-        val deltas = (-1..1)
-                .flatMap { first ->
-                    (-1..1).map { (first to it) }
-                }
-        return deltas
-                .filter { (it.first == 0) xor (it.second == 0) }
-                .filter { grid.cellAt(coord.shift(it)).isAlive() }
-                .count() < 2
-    }
+    private fun isUnderpopulated(grid: Grid, coord: Grid.Coord): Boolean =
+            neighbours(grid, coord).count() < 2
 
+    private fun isOvercrowded(grid: Grid, coord: Grid.Coord): Boolean =
+            neighbours(grid, coord).count() > 3
+
+    private fun neighbours(grid: Grid, coord: Grid.Coord) =
+            (-1..1).flatMap { first ->
+                (-1..1).map { (first to it) }
+            }
+                    .filter { (it.first == 0) xor (it.second == 0) }
+                    .filter { grid.cellAt(coord.shift(it)).isAlive() }
 }
