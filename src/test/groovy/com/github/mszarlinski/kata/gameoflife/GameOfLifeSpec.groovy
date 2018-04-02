@@ -1,5 +1,6 @@
 package com.github.mszarlinski.kata.gameoflife
 
+import com.githum.mszarlinski.kata.gameoflife.Coordinates
 import com.githum.mszarlinski.kata.gameoflife.GameOfLife
 import com.githum.mszarlinski.kata.gameoflife.Grid
 import spock.lang.Specification
@@ -7,7 +8,6 @@ import spock.lang.Specification
 import static com.github.mszarlinski.kata.gameoflife.SampleGrid.O
 import static com.github.mszarlinski.kata.gameoflife.SampleGrid.X
 import static com.github.mszarlinski.kata.gameoflife.SampleGrid.aGrid
-import static com.githum.mszarlinski.kata.gameoflife.Grid.Coord
 
 class GameOfLifeSpec extends Specification {
 
@@ -49,7 +49,7 @@ class GameOfLifeSpec extends Specification {
             )
 
         then:
-            grid.cellAt(Coord.of(i, j)).isDead()
+            grid.cellAt(Coordinates.of(i, j)).isDead()
 
         where: "index is out of bounds"
             i  | j
@@ -73,11 +73,11 @@ class GameOfLifeSpec extends Specification {
             Grid nextGenGrid = gameOfLife.calculateNextGeneration(grid)
 
         then:
-            nextGenGrid.cellAt(Coord.of(0, 0)).isDead()
-            nextGenGrid.cellAt(Coord.of(1, 2)).isDead()
+            nextGenGrid.cellAt(Coordinates.of(0, 0)).isDead()
+            nextGenGrid.cellAt(Coordinates.of(1, 2)).isDead()
 
         and:
-            nextGenGrid.cellAt(Coord.of(1, 1)).isAlive()
+            nextGenGrid.cellAt(Coordinates.of(1, 1)).isAlive()
     }
 
     def "Any live cell with more than three live neighbours dies, as if by overcrowding"() {
@@ -93,11 +93,11 @@ class GameOfLifeSpec extends Specification {
             Grid nextGenGrid = gameOfLife.calculateNextGeneration(grid)
 
         then:
-            nextGenGrid.cellAt(Coord.of(1, 1)).isDead()
+            nextGenGrid.cellAt(Coordinates.of(1, 1)).isDead()
 
         and:
-            nextGenGrid.cellAt(Coord.of(1, 0)).isAlive()
-            nextGenGrid.cellAt(Coord.of(0, 2)).isAlive()
+            nextGenGrid.cellAt(Coordinates.of(1, 0)).isAlive()
+            nextGenGrid.cellAt(Coordinates.of(0, 2)).isAlive()
     }
 
     def "Any dead cell with exactly three live neighbours becomes a live cell"() {
@@ -114,10 +114,10 @@ class GameOfLifeSpec extends Specification {
             Grid nextGenGrid = gameOfLife.calculateNextGeneration(grid)
 
         then:
-            nextGenGrid.cellAt(Coord.of(1, 0)).isAlive()
-            nextGenGrid.cellAt(Coord.of(2, 1)).isAlive()
+            nextGenGrid.cellAt(Coordinates.of(1, 0)).isAlive()
+            nextGenGrid.cellAt(Coordinates.of(2, 1)).isAlive()
 
         and:
-            nextGenGrid.cellAt(Coord.of(0, 1)).isDead()
+            nextGenGrid.cellAt(Coordinates.of(0, 1)).isDead()
     }
 }

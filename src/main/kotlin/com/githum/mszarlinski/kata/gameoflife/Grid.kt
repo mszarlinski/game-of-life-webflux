@@ -1,7 +1,5 @@
 package com.githum.mszarlinski.kata.gameoflife
 
-import java.util.concurrent.ThreadLocalRandom
-
 internal class Grid(val width: Int, val height: Int) {
 
     private val cells: MutableList<Cell> = MutableList(width * height, { Cell.random() })
@@ -10,41 +8,28 @@ internal class Grid(val width: Int, val height: Int) {
 
     fun deadCells(): Int = cells.count { it.isDead() }
 
-    fun cellAt(coord: Coord): Cell =
-            if (outOfBounds(coord)) Cell.DEAD else cells[coord.height * width + coord.width]
+    fun cellAt(coordinates: Coordinates): Cell =
+            if (outOfBounds(coordinates)) Cell.DEAD else cells[coordinates.height * width + coordinates.width]
 
-    private fun outOfBounds(coord: Coord) = coord.height < 0 || coord.height >= height || coord.width < 0 || coord.width >= width
+    private fun outOfBounds(coordinates: Coordinates) = coordinates.height < 0 || coordinates.height >= height || coordinates.width < 0 || coordinates.width >= width
 
-    fun setCellAt(coord: Coord, value: Boolean) {
-        cells[coord.height * width + coord.width] = Cell(value)
+    fun setCellAt(coordinates: Coordinates, value: Boolean) {
+        cells[coordinates.height * width + coordinates.width] = Cell(value)
     }
 
-    fun forEach(action: (Cell, Coord) -> Unit) {
+    fun forEach(action: (Cell, Coordinates) -> Unit) {
         for (i in 0 until height) {
             for (j in 0 until width) {
-                action(cells[i * width + j], Coord(i, j))
+                action(cells[i * width + j], Coordinates(i, j))
             }
         }
     }
 
-    data class Cell(private val value: Boolean) {
-        fun isAlive() = value
-        fun isDead() = !isAlive()
-
-        companion object {
-            fun random(): Cell = Cell(ThreadLocalRandom.current().nextBoolean())
-
-            val DEAD = Cell(false)
-        }
-    }
-
-    data class Coord(val height: Int, val width: Int) {
-        fun shift(delta: Pair<Int, Int>) = Coord(height + delta.first, width + delta.second)
-
-        companion object {
-            @JvmStatic
-            fun of(height: Int, width: Int) = Coord(height, width)
-        }
-    }
-
+    fun aliveNeighboursCountAround(coordinates: Coordinates): Int =
+            (-1..1).flatMap { first ->
+                (-1..1).map { (first to it) }
+            }
+                    .filterNot { it.first == 0 && it.second == 0 }
+                    .filter { cellAt(coordinates.shift(it)).isAlive() }
+                    .count()
 }

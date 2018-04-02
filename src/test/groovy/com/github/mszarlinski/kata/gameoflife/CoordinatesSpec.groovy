@@ -1,18 +1,17 @@
 package com.github.mszarlinski.kata.gameoflife
 
+import com.githum.mszarlinski.kata.gameoflife.Coordinates
 import kotlin.Pair
 import spock.lang.Specification
 
-import static com.githum.mszarlinski.kata.gameoflife.Grid.Coord
-
-class CoordSpec extends Specification {
+class CoordinatesSpec extends Specification {
 
     def "should shift coordinates"() {
         given:
-            Coord coordinates = Coord.of(1, 2)
+            Coordinates coordinates = Coordinates.of(1, 2)
 
         when:
-            Coord shifted = coordinates.shift(new Pair(height, width))
+            Coordinates shifted = coordinates.shift(new Pair(height, width))
 
         then:
             shifted.height == expHeight

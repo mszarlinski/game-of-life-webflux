@@ -12,27 +12,20 @@ internal class GameOfLife {
                 }
             }
 
-    private fun calculateCellState(grid: Grid, cell: Grid.Cell, coord: Grid.Coord): Boolean {
+    private fun calculateCellState(grid: Grid, cell: Cell, coordinates: Coordinates): Boolean {
         return if (cell.isDead()) {
-            shouldBeRestored(grid, coord)
+            shouldBeRestored(grid, coordinates)
         } else {
-            !isUnderpopulated(grid, coord) && !isOvercrowded(grid, coord)
+            !isUnderpopulated(grid, coordinates) && !isOvercrowded(grid, coordinates)
         }
     }
 
-    private fun isUnderpopulated(grid: Grid, coord: Grid.Coord): Boolean =
-            aliveNeighbours(grid, coord).count() < 2
+    private fun isUnderpopulated(grid: Grid, coordinates: Coordinates): Boolean =
+            grid.aliveNeighboursCountAround(coordinates) < 2
 
-    private fun isOvercrowded(grid: Grid, coord: Grid.Coord): Boolean =
-            aliveNeighbours(grid, coord).count() > 3
+    private fun isOvercrowded(grid: Grid, coordinates: Coordinates): Boolean =
+            grid.aliveNeighboursCountAround(coordinates) > 3
 
-    private fun shouldBeRestored(grid: Grid, coord: Grid.Coord): Boolean =
-            aliveNeighbours(grid, coord).count() == 3
-
-    private fun aliveNeighbours(grid: Grid, coord: Grid.Coord) =
-            (-1..1).flatMap { first ->
-                (-1..1).map { (first to it) }
-            }
-                    .filterNot { it.first == 0 && it.second == 0 }
-                    .filter { grid.cellAt(coord.shift(it)).isAlive() }
+    private fun shouldBeRestored(grid: Grid, coordinates: Coordinates): Boolean =
+            grid.aliveNeighboursCountAround(coordinates) == 3
 }
