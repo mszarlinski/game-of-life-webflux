@@ -64,8 +64,8 @@ class GameOfLifeSpec extends Specification {
         given:
             Grid grid = aGrid(
                     [
-                            [O, X, O, X],
-                            [X, O, O, X]
+                            [O, X, X],
+                            [X, O, O]
                     ]
             )
 
@@ -74,11 +74,10 @@ class GameOfLifeSpec extends Specification {
 
         then:
             nextGenGrid.cellAt(Coord.of(0, 0)).isDead()
-            nextGenGrid.cellAt(Coord.of(0, 2)).isDead()
-            nextGenGrid.cellAt(Coord.of(1, 1)).isDead()
+            nextGenGrid.cellAt(Coord.of(1, 2)).isDead()
 
         and:
-            nextGenGrid.cellAt(Coord.of(1, 2)).isAlive()
+            nextGenGrid.cellAt(Coord.of(1, 1)).isAlive()
     }
 
     def "Any live cell with more than three live neighbours dies, as if by overcrowding"() {
@@ -86,9 +85,7 @@ class GameOfLifeSpec extends Specification {
             Grid grid = aGrid(
                     [
                             [O, X, O],
-                            [O, O, O],
-                            [O, O, O],
-                            [X, O, O]
+                            [O, O, O]
                     ]
             )
 
@@ -96,11 +93,11 @@ class GameOfLifeSpec extends Specification {
             Grid nextGenGrid = gameOfLife.calculateNextGeneration(grid)
 
         then:
-            nextGenGrid.cellAt(Coord.of(2, 1)).isDead()
+            nextGenGrid.cellAt(Coord.of(1, 1)).isDead()
 
         and:
-            nextGenGrid.cellAt(Coord.of(1, 1)).isAlive()
-            nextGenGrid.cellAt(Coord.of(2, 2)).isAlive()
+            nextGenGrid.cellAt(Coord.of(1, 0)).isAlive()
+            nextGenGrid.cellAt(Coord.of(0, 2)).isAlive()
     }
 
     def "Any dead cell with exactly three live neighbours becomes a live cell"() {
@@ -108,7 +105,8 @@ class GameOfLifeSpec extends Specification {
             Grid grid = aGrid(
                     [
                             [O, X, O],
-                            [X, O, O]
+                            [X, O, O],
+                            [O, X, X]
                     ]
             )
 
@@ -116,9 +114,10 @@ class GameOfLifeSpec extends Specification {
             Grid nextGenGrid = gameOfLife.calculateNextGeneration(grid)
 
         then:
-            nextGenGrid.cellAt(Coord.of(0, 1)).isAlive()
+            nextGenGrid.cellAt(Coord.of(1, 0)).isAlive()
+            nextGenGrid.cellAt(Coord.of(2, 1)).isAlive()
 
         and:
-            nextGenGrid.cellAt(Coord.of(1, 0)).isDead()
+            nextGenGrid.cellAt(Coord.of(0, 1)).isDead()
     }
 }

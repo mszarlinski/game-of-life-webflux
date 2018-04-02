@@ -33,6 +33,6 @@ internal class GameOfLife {
             (-1..1).flatMap { first ->
                 (-1..1).map { (first to it) }
             }
-                    .filter { (it.first == 0) xor (it.second == 0) }
+                    .filterNot { it.first == 0 && it.second == 0 }
                     .filter { grid.cellAt(coord.shift(it)).isAlive() }
 }
